@@ -5,7 +5,7 @@ from math import *
 with open('base.json', 'r') as arquivo:
     texto = arquivo.read()
 
-dicionario = json.loads(texto)
+dic = json.loads(texto)
 
 print('==============================')
 print('|                            |')
