@@ -7,6 +7,24 @@ with open('base.json', 'r') as arquivo:
 
 dic = json.loads(texto)
 
+def normaliza(dic):
+    dicnormal={}
+    for continente, p in dic.items():
+        for namep,infop in p.items():
+            dicnormal[namep]=infop
+            infop['continente']=continente
+    return dicnormal
+
+
+def sorteia_pais(dic):
+    lista=[]
+    for k in dic:
+        lista.append(k)
+
+    pais=random.choice(lista)
+    
+    return pais
+
 print('==============================')
 print('|                            |')
 print('|BEM VINDO AO JOGO DOS PAÍSES|')
