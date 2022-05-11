@@ -5,7 +5,15 @@ from math import *
 with open('base.json', 'r') as arquivo:
     texto = arquivo.read()
 
-dicionario = json.loads(texto)
+dic = json.loads(texto)
+
+def normaliza(dic):
+    dicnormal={}
+    for continente, p in dic.items():
+        for namep,infop in p.items():
+            dicnormal[namep]=infop
+            infop['continente']=continente
+    return dicnormal
 
 print('==============================')
 print('|                            |')
