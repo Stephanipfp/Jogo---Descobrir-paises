@@ -1,4 +1,5 @@
 import json
+from pickle import TRUE
 import random
 from math import *
 
@@ -55,6 +56,7 @@ print('Você tem 20 tentativa(s)')
 print(' ')
 palpite=input('Qual o seu palpite? ')
 tentativas=20
+
 while palpite!='desisto' and tentativas!=0:
     if palpite=='dica':
         if tentativas<3:
@@ -136,12 +138,19 @@ while palpite!='desisto' and tentativas!=0:
                     print('Cores esgotadas')
             tentativas-=4
         elif opcao=='2':
+
             tentativas-=3
         elif opcao=='3':
+            area=dicpais['area']
+            print(area)
             tentativas-=6
         elif opcao=='4':
+            populacao=dicpais['populacao']
+            print(populacao)
             tentativas-=5
         elif opcao=='5':
+            continente=dicpais['continente']
+            print(continente)
             tentativas-=7
     else:
         tentativas-=1
