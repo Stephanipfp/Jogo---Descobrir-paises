@@ -109,7 +109,6 @@ jogar=0
 while jogar!='n':
     dicnormal=normaliza(dic)
     pais=sorteia_pais(dicnormal)
-    print(pais)
     dicpais=dicnormal[pais]
     inventcor=['Cores da bandeira: ']
     inventcap=['Letras da Capital: ']
