@@ -30,11 +30,40 @@ def cor_bandeira(dicnp):
             listacor.append(k)
     return listacor
     
+def letra_capital(dicnp):
+    capital=dicnp['capital']
+    listacap=[]
+    for l in capital:
+        listacap.append(l)
+    return listacap
+
+def info_geo(dicnp,dicnpp):
+    geo1=dicnp['geo']
+    geo2=dicnpp['geo']
+    la1=geo1['latitude']
+    lo1=geo1['longitude']
+    la2=geo2['latitude']
+    lo2=geo2['longitude']
+    listageo=[la1,lo1,la2,lo2]
+    return listageo
+
+def haversine(r,listageo):
+    la1r=radians(listageo[0])
+    lo1r=radians(listageo[1])
+    la2r=radians(listageo[2])
+    lo2r=radians(listageo[3])
+    a=sin((la2r-la1r)/2)
+    b=sin((lo2r-lo1r)/2)
+    d=2*r*asin(sqrt(a*2 + cos(la1r) * cos(la2r) * b*2))
+    return d
+
 
 dicnormal=normaliza(dic)
 pais=sorteia_pais(dicnormal)
 dicpais=dicnormal[pais]
-inventcor=''
+inventcor=[]
+inventcap=[]
+inventdis=['Distâncias:']
 
 raio = 6371
 
@@ -54,6 +83,9 @@ print('Tente adivinhar o país escolhido!')
 print(' ')
 print('Você tem 20 tentativa(s)')
 print(' ')
+
+mercdicas=['Mercado de Dicas','----------------------------------------','0. Sem dica','1. Cor da bandeira  -> custa 4 tentativas','2. Letra da capital -> custa 3 tentativas','3. Área             -> custa 6 tentativas','4. População        -> custa 5 tentativas','5. Continente       -> custa 7 tentativas','----------------------------------------']
+
 palpite=input('Qual o seu palpite? ')
 tentativas=20
 
