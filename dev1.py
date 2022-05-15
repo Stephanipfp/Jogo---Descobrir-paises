@@ -90,61 +90,33 @@ palpite=input('Qual o seu palpite? ')
 tentativas=20
 
 while palpite!='desisto' and tentativas!=0:
+    dicpaispal=dicnormal[palpite]
+    listageo=info_geo(dicpais,dicpaispal)
+    d=str(int(haversine(raio,listageo)))
+    ds='{}km'.format(d)
+    dispais=[ds,palpite]
+    dispaisok=' -> '.join(dispais)
+    inventdis.append(dispaisok)
+    if palpite not in dicnormal:
+        print('País desconhecido')   
     if palpite=='dica':
         if tentativas<3:
             print('Você não tem pontos suficientes')
             palpite=input('Qual o seu palpite? ')
-            opcao=0
-        elif tentativas<4:
-            print('Mercado de Dicas')
-            print('----------------------------------------')
-            print('0. Sem dica')
-            print('2. Letra da capital -> custa 3 tentativas')
-            print('----------------------------------------')
-            print(' ')
-            opcao=input('Escolha sua opção [0|1|2]: ')
+            opcao=0  
         elif tentativas<5:
-            print('Mercado de Dicas')
-            print('----------------------------------------')
-            print('0. Sem dica')
-            print('1. Cor da bandeira  -> custa 4 tentativas')
-            print('2. Letra da capital -> custa 3 tentativas')
-            print('----------------------------------------')
-            print(' ')
-            opcao=input('Escolha sua opção [0|1|2]: ')
+            if '4. População        -> custa 5 tentativas' in mercdicas:
+                del mercdicas[mercdicas.index('4. População        -> custa 5 tentativas')]
         elif tentativas<6:
-            print('Mercado de Dicas')
-            print('----------------------------------------')
-            print('0. Sem dica')
-            print('1. Cor da bandeira  -> custa 4 tentativas')
-            print('2. Letra da capital -> custa 3 tentativas')
-            print('4. População        -> custa 5 tentativas')
-            print('----------------------------------------')
-            print(' ')
-            opcao=input('Escolha sua opção [0|1|2|4]: ')
+            if '3. Área             -> custa 6 tentativas' in mercdicas:
+                del mercdicas[mercdicas.index('3. Área             -> custa 6 tentativas')]
         elif tentativas<7:
-            print('Mercado de Dicas')
-            print('----------------------------------------')
-            print('0. Sem dica')
-            print('1. Cor da bandeira  -> custa 4 tentativas')
-            print('2. Letra da capital -> custa 3 tentativas')
-            print('3. Área             -> custa 6 tentativas')
-            print('4. População        -> custa 5 tentativas')
-            print('----------------------------------------')
-            print(' ')
-            opcao=input('Escolha sua opção [0|1|2|3|4]: ')
-        else:
-            print('Mercado de Dicas')
-            print('----------------------------------------')
-            print('0. Sem dica')
-            print('1. Cor da bandeira  -> custa 4 tentativas')
-            print('2. Letra da capital -> custa 3 tentativas')
-            print('3. Área             -> custa 6 tentativas')
-            print('4. População        -> custa 5 tentativas')
-            print('5. Continente       -> custa 7 tentativas')
-            print('----------------------------------------')
-            print(' ')
-            opcao=input('Escolha sua opção [0|1|2|3|4|5]: ')
+            if '5. Continente       -> custa 7 tentativas' in mercdicas:
+                del mercdicas[mercdicas.index('5. Continente       -> custa 7 tentativas')]
+        if tentativas>3:
+            merc='\n'.join(mercdicas)
+            print(merc)
+            opcao=input('Escolha sua opção: ')
         if int(opcao)<0 or int(opcao)>5:
             print('Essa opção não existe')       
         elif opcao=='0':
@@ -152,41 +124,73 @@ while palpite!='desisto' and tentativas!=0:
         elif opcao=='1':
             if tentativas<4:
                 print('Número de tentativas insuficiente')
-                opcao=input('Escolha sua opção [0|2|3|4|5]: ')
-            if inventcor=='':
+                opcao=0
+            if inventcor==[]:
                 listacor=cor_bandeira(dicpais)
                 cor=random.choice(listacor)
-                inventcor+=cor
-                print('Cores da bandeira: {}'.format(inventcor))
+                inventcor.append(cor)
+                print('Cores da bandeira: {}'.format(','.join(inventcor)))
                 listacor2=listacor
-                del listacor2[listacor.index(cor)]                
+                del listacor2[listacor.index(cor)]              
             else:
                 if listacor2!=[]:
                     cor=random.choice(listacor2)
-                    inventcor+=', '+cor
-                    print('Cores da bandeira: {}'.format(inventcor))
-                    del listacor2[listacor.index(cor)]
+                    inventcor.append(cor)
+                    print('Cores da bandeira: {}'.format(','.join(inventcor)))
+                    del listacor2[listacor2.index(cor)]
                 else:
                     print('Cores esgotadas')
+                    del mercdicas[mercdicas.index('1. Cor da bandeira  -> custa 4 tentativas')]
+                    opcao=0
             tentativas-=4
         elif opcao=='2':
-
+            if inventcap==[]:
+                listacap=letra_capital(dicpais)
+                letra=random.choice(listacap)
+                inventcap.append(letra)
+                print('Letras da capital: {}'.format(','.join(inventcap)))
+                listacap2=listacap
+                del listacap2[listacap.index(letra)]
+            else:
+                if listacap2!=[]:
+                    letra=random.choice(listacap2)
+                    inventcap.append(letra)
+                    print('Letras da capital: {}'.format(','.join(inventcap)))
+                    del listacap2[listacap2.index(letra)]
+                else:
+                    print('Letras esgotadas')
+                    del mercdicas[mercdicas.index('2. Letra da capital -> custa 3 tentativas')]
+                    opcao=0
             tentativas-=3
         elif opcao=='3':
-            area=dicpais['area']
-            print(area)
-            tentativas-=6
+            if '3. Área             -> custa 6 tentativas' in mercdicas:
+                area=dicpais['area']
+                print('{} km'.format(area))
+                del mercdicas[mercdicas.index('3. Área             -> custa 6 tentativas')]
+                tentativas-=6
+            else:
+                print('Você já usou essa dica')
         elif opcao=='4':
-            populacao=dicpais['populacao']
-            print(populacao)
-            tentativas-=5
+            if '4. População        -> custa 5 tentativas' in mercdicas:
+                populacao=dicpais['populacao']
+                print('{} habitantes'.format(populacao))
+                del mercdicas[mercdicas.index('4. População        -> custa 5 tentativas')]
+                tentativas-=5
+            else:
+                print('Você já usou essa dica')
         elif opcao=='5':
-            continente=dicpais['continente']
-            print(continente)
-            tentativas-=7
+            if '5. Continente       -> custa 7 tentativas' in mercdicas:
+                continente=dicpais['continente']
+                print(continente)                
+                del mercdicas[mercdicas.index('5. Continente       -> custa 7 tentativas')]
+                tentativas-=7
+            else:
+                print('Você já usou essa dica')
     else:
         tentativas-=1
-    print('Você tem {} tentativas'.format(tentativas))
+        dis='\n'.join(inventdis)
+        print(dis)
+        print('Você tem {} tentativas'.format(tentativas))
     palpite=input('Qual o seu palpite? ')
     
     
